@@ -7,13 +7,22 @@
     <input type="text" placeholder="Anything here..." value="{{newContent}}" bindinput="inputHandle" bindconfirm="addHandle" />
   </view>
   <!-- 内容区域 -->
-  <!-- 我们当然可以使用点击icon success或者circle图标来实现切换,点击icon:clear图标清除 -->
+  <!-- 特别注意：
+  1.为了避免出现冒泡的情况：我们可以使用点击icon success或者circle图标来实现切换,点击icon:clear图标清除。这样
+  切换和清除的按钮分开，不会产生父子容器的冒泡问题
+  2.但是，我们在设计功能时，切换用到的很多，如果要扩大切换的操作范围，我们将原本绑定在icon:success或者circle上的
+  事件iconSwitchHandle，添加到view.item元素上。但是，由此带来的问题是，清除事件出发时，会触发切换事件。在设计清除
+  事件时，要处理冒泡问题。小程序中处理冒泡很简单：bindtap改为catchtap即可，将bind系列事件，改为catch系列事件，即可
+  阻止冒泡 -->
   <view class="todos">
-    <view class="item" wx:for="{{todos}}">
-      <icon type="{{item.completed?'success':'circle'}}" size="23" data-index="{{index}}" bindtap="iconSwitchHandle"></icon>
+    <view class="item" wx:for="{{todos}}" bindtap="iconSwitchHandle">
+      <!-- <icon type="{{item.completed?'success':'circle'}}" size="23" data-index="{{index}}" bindtap="iconSwitchHandle"></icon> -->
+      <icon type="{{item.completed?'success':'circle'}}" size="23" data-index="{{index}}"></icon>
       <!-- 文字如果选中了，会有一个中划线和文字颜色的变化 -->
       <text class="{{item.completed? 'col':''}}">{{item.name}}</text>
-      <icon type="clear" size="23" bindtap="iconClearHandle" data-index="{{index}}"></icon>
+      <!-- 由于其父盒子也添加了点击事件，冒泡发生。小程序中阻止冒泡很简单，只需将bindtap事件改为catchtap事件 -->
+      <!-- <icon type="clear" size="23" bindtap="iconClearHandle" data-index="{{index}}"></icon> -->
+      <icon type="clear" size="23" catchtap="iconClearHandle" data-index="{{index}}"></icon>
     </view>
   </view>
   <!-- 操纵链接 -->
