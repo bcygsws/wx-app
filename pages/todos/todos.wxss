@@ -1,0 +1,76 @@
+/* pages/todos/todos.wxss */
+
+.container {
+  border-top: 1rpx solid #e0e0e0;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.container .content {
+  border: 1rpx solid #e0e0e0;
+  margin-top: 20rpx;
+  border-radius: 5rpx;
+  box-shadow: 0 0 5rpx #e0e0e0;
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+}
+
+.container .content image {
+  width: 40rpx;
+  height: 40rpx;
+  vertical-align: bottom;
+  margin-right: 20rpx;
+}
+
+.container .todos {
+  border: 1rpx solid #e0e0e0;
+  margin-top: 20rpx;
+  border-radius: 5rpx;
+  box-shadow: 0 0 5rpx #e0e0e0;
+}
+
+.todos .item {
+  padding: 20rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+  display: flex;
+  align-items: center;
+}
+
+.todos .item:last-child {
+  border: none;
+}
+
+.todos .item text {
+  flex: 1;
+  font-size: 30rpx;
+  color: #444;
+  margin-left: 20rpx;
+}
+
+.footer {
+  font-size: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+
+.footer>text {
+  color: #444;
+}
+
+.footer .text-item {
+  align-self: center;
+  font-size: 0rpx;
+}
+
+.footer .text-item text {
+  font-size: 30rpx;
+}
+
+/* 内容区文本有无删除线 */
+
+.todos .item .col {
+  text-decoration: line-through;
+  color: blue;
+}
