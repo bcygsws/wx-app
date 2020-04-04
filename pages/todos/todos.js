@@ -1,4 +1,5 @@
 // pages/todos/todos.js
+// 快捷键识记：ctrl+tab组合键，切换窗口中打开的文件
 Page({
   data: {
     // 文本框数据模型
