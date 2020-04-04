@@ -35,7 +35,7 @@ Page({
       leftCount: count
     });
   },
-  // 拿到文本输入框中的数据
+  // 拿到文本输入框中的数据，并存放于data的newContent变量下
   inputHandle: function (e) {
     console.log(e.detail.value);
     this.data.newContent = e.detail.value;

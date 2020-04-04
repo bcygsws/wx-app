@@ -3,7 +3,7 @@
   <!-- 内容输入区 -->
   <view class="content">
     <image class="" src="../../images/plus.png" bindtap="addHandle"></image>
-    <!-- bindconfirm是小程序中enter键抬起事件 -->
+    <!-- bindconfirm是小程序中enter键抬起事件，在手机上就是打字键盘上的换行键 -->
     <input type="text" placeholder="Anything here..." value="{{newContent}}" bindinput="inputHandle"
       bindconfirm="addHandle" />
   </view>
@@ -14,26 +14,35 @@
   2.但是，我们在设计功能时，切换用到的很多，如果要扩大切换的操作范围，我们将原本绑定在icon:success或者circle上的
   事件iconSwitchHandle，添加到view.item元素上。但是，由此带来的问题是，清除事件出发时，会触发切换事件。在设计清除
   事件时，要处理冒泡问题。小程序中处理冒泡很简单：bindtap改为catchtap即可，将bind系列事件，改为catch系列事件，即可
-  阻止冒泡 -->
-  <view class="todos">
-    <view class="item" wx:for="{{todos}}" bindtap="iconSwitchHandle" data-index="{{index}}">
-      <!-- <icon type="{{item.completed?'success':'circle'}}" size="23" data-index="{{index}}" bindtap="iconSwitchHandle"></icon> -->
-      <icon type="{{item.completed?'success':'circle'}}" size="23" hover-stop-propagation="true"></icon>
-      <!-- 文字如果选中了，会有一个中划线和文字颜色的变化 -->
-      <text class="{{item.completed? 'col':''}}" hover-stop-propagation="true">{{item.name}}</text>
-      <!-- 由于其父盒子也添加了点击事件，冒泡发生。小程序中阻止冒泡很简单，只需将bindtap事件改为catchtap事件 -->
-      <!-- <icon type="clear" size="23" bindtap="iconClearHandle" data-index="{{index}}"></icon> -->
-      <icon type="clear" size="23" catchtap="iconClearHandle" data-index="{{index}}">
-      </icon>
+  阻止冒泡
+  3.当列表没有内容时(此时todos.length==0,0是false)，我们希望view.footer和view.todos都不显示，我们使用载体标签block,配合wx:if标签来显示 
+  4.如果没有执行blcok中的wx:if，也可以使用wx:else给一个提示
+  -->
+  <block wx:if="{{todos.length}}">
+    <view class="todos">
+      <view class="item" wx:for="{{todos}}" bindtap="iconSwitchHandle" data-index="{{index}}">
+        <!-- <icon type="{{item.completed?'success':'circle'}}" size="23" data-index="{{index}}" bindtap="iconSwitchHandle"></icon> -->
+        <icon type="{{item.completed?'success':'circle'}}" size="23" hover-stop-propagation="true"></icon>
+        <!-- 文字如果选中了，会有一个中划线和文字颜色的变化 -->
+        <text class="{{item.completed? 'col':''}}" hover-stop-propagation="true">{{item.name}}</text>
+        <!-- 由于其父盒子也添加了点击事件，冒泡发生。小程序中阻止冒泡很简单，只需将bindtap事件改为catchtap事件 -->
+        <!-- <icon type="clear" size="23" bindtap="iconClearHandle" data-index="{{index}}"></icon> -->
+        <icon type="clear" size="23" catchtap="iconClearHandle" data-index="{{index}}">
+        </icon>
+      </view>
     </view>
-  </view>
-  <!-- 操纵链接 -->
-  <view class="footer">
-    <text bindtap="toggleAllHandle">Toggle all</text>
-    <!-- 解决换行被解析成为占位符的问题:1.text标签连写，这种方法不具有可操作性，原因是在写到其他行代码时，一旦格式化，换行就立即解析成空格，影响布局。2.将父元素设置font-size：0rpx;各子元素设置字体大小,将text文本中的内容，再嵌套一层标签。使得原本的text标签成为父标签，并设置font-size:0;然后再给嵌套子标签text设置需要的字体大小。这样做的原理是使得【空格】和嵌套子标签并列，空格font-size为0,自然不会显示出来了-->
-    <text wx:if="{{leftCount}}" class="text-item">
-      <text>{{leftCount}} {{leftCount<2? 'item left':'items left'}}</text>
-    </text>
-    <text bindtap="clearCompletedHandle">clear completed</text>
+    <!-- 操纵链接 -->
+    <view class="footer">
+      <text bindtap="toggleAllHandle">Toggle all</text>
+      <!-- 解决换行被解析成为占位符的问题:1.text标签连写，这种方法不具有可操作性，原因是在写到其他行代码时，一旦格式化，换行就立即解析成空格，影响布局。2.将父元素设置font-size：0rpx;各子元素设置字体大小,将text文本中的内容，再嵌套一层标签。使得原本的text标签成为父标签，并设置font-size:0;然后再给嵌套子标签text设置需要的字体大小。这样做的原理是使得【空格】和嵌套子标签并列，空格font-size为0,自然不会显示出来了-->
+      <text wx:if="{{leftCount}}" class="text-item">
+        <text>{{leftCount}} {{leftCount<2? 'item left':'items left'}}</text>
+      </text>
+      <text bindtap="clearCompletedHandle">clear completed</text>
+    </view>
+  </block>
+  <view wx:else>
+    <!-- 提示文本 -->
+    <text>列表中没有内容了。。。</text>
   </view>
 </view>
