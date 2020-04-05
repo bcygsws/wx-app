@@ -1,5 +1,9 @@
 // pages/todos/todos.js
-// 快捷键识记：ctrl+tab组合键，切换窗口中打开的文件
+// 1.快捷键识记：ctrl+tab组合键，切换窗口中打开的文件
+/* 
+2.git clone https://github.com/bcygsws/wx-app --depth 1  把代码克隆下来，克隆的是最后一次提交的代码depth 1，克隆深度为1
+表示最后一次提交的代码
+*/
 Page({
   data: {
     // 文本框数据模型
